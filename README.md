@@ -1,2 +1,2 @@
-# 说明
-总结一些常用的环境安装脚本
+# README
+script for common environment install 
