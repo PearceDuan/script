@@ -2,8 +2,16 @@
 # Author: pearceduan
 # Date: 2020.05.26
 
-readonly DOCKER_VERSION='19.03.5'
-readonly DOCKER_COMPOSE_VERSION='1.25.0'
+DOCKER_VERSION="19.03.5"
+DOCKER_COMPOSE_VERSION="1.25.0"
+
+if [[ -n "$1" ]]; then
+    DOCKER_VERSION="$1"
+fi
+
+if [[ -n "$2" ]]; then
+    DOCKER_COMPOSE_VERSION="$2"
+fi
 
 function root_need(){
     if [[ $EUID -ne 0 ]]; then
@@ -131,6 +139,7 @@ function remove_docker_compose() {
 }
 
 function install_docker_compose(){
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>install docker-compose(${DOCKER_COMPOSE_VERSION})"
     if [[ -e ./docker-compose-${DOCKER_COMPOSE_VERSION}-$(uname -s)-$(uname -m) ]]; then
         install_docker_compose_locally
     else
@@ -150,11 +159,11 @@ function install_command_completion_online() {
 
 function install_command_completion_locally() {
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>install command completion locally"
-    mv ./command-completion-docker-compose-${DOCKER_COMPOSE_VERSION}-$(uname -s)-$(uname -m) /etc/bash_completion.d/docker-compose
+    mv ./command-completion-${DOCKER_COMPOSE_VERSION}-$(uname -s)-$(uname -m) /etc/bash_completion.d/docker-compose
 }
 
 function install_command_completion() {
-    if [[ -e ./command-completion-docker-compose-${DOCKER_COMPOSE_VERSION}-$(uname -s)-$(uname -m) ]]; then
+    if [[ -e ./command-completion-${DOCKER_COMPOSE_VERSION}-$(uname -s)-$(uname -m) ]]; then
         install_command_completion_locally
     else
         install_command_completion_online
